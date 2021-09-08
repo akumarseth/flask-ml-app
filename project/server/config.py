@@ -8,8 +8,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 sqlite_local_base = 'sqlite:///' + basedir + '\\'
 database_name = 'flask_db.sqlite'
 
-# pro_dbname=f"'flask_mp_app_db' user='abhishekkumar13@usepostgresserver' host='usepostgresserver.postgres.database.azure.com' password='Admin#123' port='5432' sslmode='true'"
-po_db = f"postgresql://usepostgresserver.postgres.database.azure.com:5432/flask_ml_app_db?user=abhishekkumar13@usepostgresserver&password=Admin#123&sslmode=require"
 # EmailID
 serviceEmail = 'xxxx@gmail.com'
 password = '********'
@@ -49,4 +47,4 @@ class ProductionConfig(BaseConfig):
     """Production configuration."""
     SECRET_KEY = 'JHJGYU6563#^&*230UNNXDFTYM667ghgh*@$#jfdhg767rtcfssdm,mbnvbcv3568976fssdfcggvghfjyuyqwavSGHJ'
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = po_db
+    SQLALCHEMY_DATABASE_URI = ""
