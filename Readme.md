@@ -28,3 +28,10 @@
 ##### azure config set subscription <SubscriptionID>
 
 ##### gunicorn --bind=0.0.0.0 --timeout 600 startup:app
+
+
+#### Heroku
+
+## Reference 
+
+##### https://github.com/Azure-Samples/flask-postgresql-app/blob/master/app/app.py
