@@ -30,8 +30,8 @@ class DevelopmentConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = po_db #sqlite_local_base + database_name
 
     STORAGE_ACCOUNT_NAME = 'pythonstorageaccount01'
-    ACCOUNT_KEY = 'KJ7dCf+yykXGmotjYtKgwgYjcm4BWlC56TajsfShAhu0UnYHhOPYJzmKo/4r6lfAXpCQ6o5aOvhKmp7kprBT7g=='
-    CONNECTION_STRING = 'DefaultEndpointsProtocol=https;AccountName=pythonstorageaccount01;AccountKey=KJ7dCf+yykXGmotjYtKgwgYjcm4BWlC56TajsfShAhu0UnYHhOPYJzmKo/4r6lfAXpCQ6o5aOvhKmp7kprBT7g==;EndpointSuffix=core.windows.net'
+    ACCOUNT_KEY = '*******************'
+    CONNECTION_STRING = '*************************'
     CONTAINER_NAME = 'input'
     ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg'])
     MAX_CONTENT_LENGTH = 20 * 1024 * 1024    # 20 Mb limit

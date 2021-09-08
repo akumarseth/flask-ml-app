@@ -10,7 +10,6 @@ flask-bcrypt = "*"
 flask-cors = "*"
 flask-cli = "*"
 pyjwt = "*"
-azure-storage = "*"
 azure-storage-blob = "*"
 marshmallow-sqlalchemy = "*"
 
