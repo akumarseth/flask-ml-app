@@ -39,7 +39,13 @@ class TestingConfig(BaseConfig):
     DEBUG = True
     TESTING = True
     BCRYPT_LOG_ROUNDS = 4
-    SQLALCHEMY_DATABASE_URI = sqlite_local_base + database_name
+    # database_uri = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
+    # dbuser="qywtuaouswpwun",
+    # dbpass="90eacb2e62e6fea6b00a33a0c7dbaabcc552292b789e9b840948aa8ceaa052e5",
+    # dbhost="ec2-35-169-188-58.compute-1.amazonaws.com",
+    # dbname="d4986ivbgijcja"
+    # )
+    SQLALCHEMY_DATABASE_URI = "postgres://qywtuaouswpwun:90eacb2e62e6fea6b00a33a0c7dbaabcc552292b789e9b840948aa8ceaa052e5@ec2-35-169-188-58.compute-1.amazonaws.com:5432/d4986ivbgijcja"
     PRESERVE_CONTEXT_ON_EXCEPTION = False
 
 
