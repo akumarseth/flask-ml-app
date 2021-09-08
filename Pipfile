@@ -13,6 +13,7 @@ pyjwt = "*"
 azure-storage-blob = "*"
 marshmallow-sqlalchemy = "*"
 flask-marshmallow = "*"
+gunicorn = "*"
 
 [dev-packages]
 
