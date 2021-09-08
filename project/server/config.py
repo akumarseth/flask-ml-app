@@ -25,11 +25,11 @@ class DevelopmentConfig(BaseConfig):
     """Development configuration."""
     DEBUG = True
     BCRYPT_LOG_ROUNDS = 4
-    SQLALCHEMY_DATABASE_URI = po_db #sqlite_local_base + database_name
+    SQLALCHEMY_DATABASE_URI = sqlite_local_base + database_name
 
     STORAGE_ACCOUNT_NAME = 'pythonstorageaccount01'
-    ACCOUNT_KEY = '*******************'
-    CONNECTION_STRING = '*************************'
+    ACCOUNT_KEY = 'jdfhdsjkfsdfsyweiufhnsjd'
+    CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=pythonstorageaccount01;AccountKey=f'{ACCOUNT_KEY}';EndpointSuffix=core.windows.net"
     CONTAINER_NAME = 'input'
     ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg'])
     MAX_CONTENT_LENGTH = 20 * 1024 * 1024    # 20 Mb limit

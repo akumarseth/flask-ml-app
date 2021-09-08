@@ -12,6 +12,7 @@ flask-cli = "*"
 pyjwt = "*"
 azure-storage-blob = "*"
 marshmallow-sqlalchemy = "*"
+flask-marshmallow = "*"
 
 [dev-packages]
 
