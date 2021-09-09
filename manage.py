@@ -17,7 +17,7 @@ COV = coverage.coverage(
 COV.start()
 
 from project.server.app import app, db
-from project.server.dbmodel import studentModel, usermodel
+from project.server.dbmodel import studentModel, usermodel,documentmodel,configmodel
 
 from flask.cli import FlaskGroup
 cli = FlaskGroup(app)

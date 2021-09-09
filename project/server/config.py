@@ -29,24 +29,24 @@ class DevelopmentConfig(BaseConfig):
     BCRYPT_LOG_ROUNDS = 4
     SQLALCHEMY_DATABASE_URI = sqlite_local_base + database_name
 
-    STORAGE_ACCOUNT_NAME = 'pythonstorageaccount01'
-    ACCOUNT_KEY = 'KJ7dCf+yykXGmotjYtKgwgYjcm4BWlC56TajsfShAhu0UnYHhOPYJzmKo/4r6lfAXpCQ6o5aOvhKmp7kprBT7g=='
-    CONNECTION_STRING = f"DefaultEndpointsProtocol=https;AccountName={STORAGE_ACCOUNT_NAME};AccountKey={ACCOUNT_KEY};EndpointSuffix=core.windows.net"
+    # STORAGE_ACCOUNT_NAME = 'pythonstorageaccount01'
+    # ACCOUNT_KEY = 'KJ7dCf+yykXGmotjYtKgwgYjcm4BWlC56TajsfShAhu0UnYHhOPYJzmKo/4r6lfAXpCQ6o5aOvhKmp7kprBT7g=='
+    # CONNECTION_STRING = f"DefaultEndpointsProtocol=https;AccountName={STORAGE_ACCOUNT_NAME};AccountKey={ACCOUNT_KEY};EndpointSuffix=core.windows.net"
+    CONFIG_CONTAINER_NAME='config'
     CONTAINER_NAME = 'input'
     ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg'])
     MAX_CONTENT_LENGTH = 20 * 1024 * 1024    # 20 Mb limit
+    
+    STORAGE_ACCOUNT_NAME = 'dssstorageflaskapp'
+    ACCOUNT_KEY = 'pdLARQZbo5mjcJkKnWVLbGBVdhFdr9/hORs9AxoG4skXOWxpnp+HEb81hkiCFovEQDKvRI9jEa44ghVN2aMklQ=='
+    CONNECTION_STRING = f"DefaultEndpointsProtocol=https;AccountName={STORAGE_ACCOUNT_NAME};AccountKey={ACCOUNT_KEY};EndpointSuffix=core.windows.net"
+
 
 class TestingConfig(BaseConfig):
     """Testing configuration."""
     DEBUG = True
     TESTING = True
     BCRYPT_LOG_ROUNDS = 4
-    # database_uri = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
-    # dbuser="qywtuaouswpwun",
-    # dbpass="90eacb2e62e6fea6b00a33a0c7dbaabcc552292b789e9b840948aa8ceaa052e5",
-    # dbhost="ec2-35-169-188-58.compute-1.amazonaws.com",
-    # dbname="d4986ivbgijcja"
-    # )
     SQLALCHEMY_DATABASE_URI = "postgresql://qywtuaouswpwun:90eacb2e62e6fea6b00a33a0c7dbaabcc552292b789e9b840948aa8ceaa052e5@ec2-35-169-188-58.compute-1.amazonaws.com:5432/d4986ivbgijcja"
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     STORAGE_ACCOUNT_NAME = 'dssstorageflaskapp'
