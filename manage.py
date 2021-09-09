@@ -18,6 +18,7 @@ COV.start()
 
 from project.server.app import app, db
 from project.server.dbmodel import studentModel, usermodel ,documentmodel,configmodel
+from project.server.dbmodel import *
 
 from flask.cli import FlaskGroup
 cli = FlaskGroup(app)

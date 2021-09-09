@@ -1,7 +1,8 @@
 from project.server.app import db, ma
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from project.server.dbmodel.basemodel import BaseModel
 
-class Category(db.Model):
+class Category(db.Model, BaseModel):
     """ Category Model for storing document category details """
     __tablename__ = "Category"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -11,7 +12,7 @@ class Category(db.Model):
 
 
 
-class Dcoument(db.Model):
+class Dcoument(db.Model, BaseModel):
     """ Document Model for storing document related details """
     __tablename__ = "Dcoument"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

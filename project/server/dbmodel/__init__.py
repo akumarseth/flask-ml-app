@@ -1,0 +1,1 @@
+from project.server.dbmodel.testmodel import *

@@ -1,8 +1,9 @@
 from project.server.app import app, db, ma
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from project.server.dbmodel.basemodel import BaseModel
 
 
-class ConfigTemplate(db.Model):
+class ConfigTemplate(db.Model, BaseModel):
     """ ConfigTemplate Model for storing document category configuration template details """
     __tablename__ = "ConfigTemplate"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -17,7 +18,7 @@ class ConfigTemplateSchema(ma.SQLAlchemyAutoSchema):
         model = ConfigTemplate
 
 
-class ConfigTemplateMetadata(db.Model):
+class ConfigTemplateMetadata(db.Model, BaseModel):
     """ ConfigTemplateMetadata Model for storing document category configuration template details """
     __tablename__ = "ConfigTemplateMetadata"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
