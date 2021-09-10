@@ -15,8 +15,6 @@ marshmallow-sqlalchemy = "*"
 flask-marshmallow = "*"
 gunicorn = "*"
 psycopg2 = "*"
-pyodbc = "*"
-pymssql = "*"
 pandas = "*"
 openpyxl = "*"
 

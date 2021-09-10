@@ -1,7 +1,6 @@
 # project/server/config.py
 
 import os
-import pyodbc
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 # postgres_local_base = 'postgresql://postgres:@localhost/'
