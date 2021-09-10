@@ -205,10 +205,6 @@ def update_config_template_to_default(template_id):
                 status=401
             )
         
-        need_to_make_default_template.is_default = 1
-        need_to_make_default_template.edited_by="",
-        need_to_make_default_template.edited_date=datetime.now()
-        db.session.add(need_to_make_default_template)
 
         """update existed default template to false"""
         existed_default_template = ConfigTemplate.query.filter_by(is_default=True).first()
@@ -217,6 +213,13 @@ def update_config_template_to_default(template_id):
             existed_default_template.edited_by="",
             existed_default_template.edited_date=datetime.now()
             db.session.add(existed_default_template)
+        
+        
+        need_to_make_default_template.is_default = 1
+        need_to_make_default_template.edited_by="",
+        need_to_make_default_template.edited_date=datetime.now()
+        db.session.add(need_to_make_default_template)
+
 
         db.session.commit()
 
