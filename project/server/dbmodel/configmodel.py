@@ -8,6 +8,7 @@ class ConfigTemplate(db.Model, BaseModel):
     __tablename__ = "ConfigTemplate"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     category = db.Column(db.Text, unique=False, nullable=False)
+    display_template_name = db.Column(db.Text, unique=False, nullable=False)
     template_name = db.Column(db.Text, unique=True, nullable=False)
     version_no = db.Column(db.Text, unique=False, nullable=False)
     is_default = db.Column(db.Boolean, default=False, nullable=False)

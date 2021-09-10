@@ -6,13 +6,13 @@ from project.server.dbmodel.basemodel import BaseModel
 
 # Define models
 users_roles = db.Table('user_role',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+        db.Column('role_id', db.Integer, db.ForeignKey('role.id')))
 
 
 class Role(db.Model, BaseModel):
     __tablename__ = 'role'
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 

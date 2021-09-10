@@ -21,6 +21,7 @@ from project.server.dbmodel import studentModel, usermodel ,documentmodel,config
 from project.server.dbmodel import *
 
 from flask.cli import FlaskGroup
+
 cli = FlaskGroup(app)
 
 

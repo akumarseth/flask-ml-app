@@ -1,12 +1,13 @@
 # project/server/config.py
 
 import os
+import pyodbc
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 # postgres_local_base = 'postgresql://postgres:@localhost/'
 # sqlite_local_base = 'mysql+pymysql://root:Admin@123@localhost:3307/'
 sqlite_local_base = 'sqlite:///' + basedir + '\\'
-database_name = 'flask_db.sqlite'
+database_name = 'flask_ml__db.sqlite'
 
 # EmailID
 serviceEmail = 'xxxx@gmail.com'
@@ -19,6 +20,7 @@ class BaseConfig:
     DEBUG = False
     BCRYPT_LOG_ROUNDS = 13
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
 
     STORAGE_ACCOUNT_NAME = 'dssstorageflaskapp'
     CONTAINER_NAME = 'input'
@@ -33,6 +35,8 @@ class DevelopmentConfig(BaseConfig):
     DEBUG = True
     BCRYPT_LOG_ROUNDS = 4
     SQLALCHEMY_DATABASE_URI = sqlite_local_base + database_name
+    # SQLALCHEMY_DATABASE_URI = f"mssql+pymssql://admin:Admin123@IN2248112W1/flask_ml_db"
+    # SQLALCHEMY_DATABASE_URI = f"mssql+pyodbc://admin:Admin123@IN2248112W1/flask_ml_db?driver=ODBC Driver 17 for SQL Server?trusted_connection=yes"
 
     # STORAGE_ACCOUNT_NAME = 'pythonstorageaccount01'
     # ACCOUNT_KEY = 'KJ7dCf+yykXGmotjYtKgwgYjcm4BWlC56TajsfShAhu0UnYHhOPYJzmKo/4r6lfAXpCQ6o5aOvhKmp7kprBT7g=='
@@ -48,7 +52,6 @@ class TestingConfig(BaseConfig):
     TESTING = True
     BCRYPT_LOG_ROUNDS = 4
     SQLALCHEMY_DATABASE_URI = "postgresql://qywtuaouswpwun:90eacb2e62e6fea6b00a33a0c7dbaabcc552292b789e9b840948aa8ceaa052e5@ec2-35-169-188-58.compute-1.amazonaws.com:5432/d4986ivbgijcja"
-    PRESERVE_CONTEXT_ON_EXCEPTION = False
     
     ACCOUNT_KEY = 'pdLARQZbo5mjcJkKnWVLbGBVdhFdr9/hORs9AxoG4skXOWxpnp+HEb81hkiCFovEQDKvRI9jEa44ghVN2aMklQ=='
     CONNECTION_STRING = f"DefaultEndpointsProtocol=https;AccountName={BaseConfig.STORAGE_ACCOUNT_NAME};AccountKey={ACCOUNT_KEY};EndpointSuffix=core.windows.net"

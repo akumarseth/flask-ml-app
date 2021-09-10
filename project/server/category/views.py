@@ -5,6 +5,7 @@ from flask.views import MethodView
 from project.server.app import db
 from project.server.auth.views import auth_required
 from project.server.dbmodel.documentmodel import Category,CategorySchema
+from datetime import datetime
 
 category_blueprint = Blueprint('category', __name__)
 
@@ -43,7 +44,11 @@ def save():
 
         category = Category(
             name=post_data.get("name"),
-            description=post_data.get("description")
+            description=post_data.get("description"),
+            created_by="",
+            created_date=datetime.now(),
+            edited_by="",
+            edited_date=datetime.now()
         )
         db.session.add(category)
         db.session.commit()
@@ -69,10 +74,13 @@ def update(id):
 
         category_obj = Category.query.filter_by(id=id).first()
         
+
         category_obj.name = post_data.get('name')
+        category_obj.edited_by="",
+        category_obj.edited_date=datetime.now()
+
         category_obj.description = post_data.get('description')
 
-        
         db.session.commit()
         
         categories_schema = CategorySchema(many=False)
