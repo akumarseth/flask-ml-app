@@ -118,11 +118,11 @@ def upload_config(category):
                             status=201
                         )
 
-                if category != template_category:
-                    return Response(
-                            response=f"Template category is not same which you hve slected from dropdown.",
-                            status=201
-                        )
+                # if category != template_category:
+                #     return Response(
+                #             response=f"Template category is not same which you have slected from dropdown.",
+                #             status=201
+                #         )
 
                 create_container_if_not_exist()
 
