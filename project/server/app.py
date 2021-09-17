@@ -15,8 +15,8 @@ CORS(app)
 
 app_settings = os.getenv(
     'APP_SETTINGS',
-    # 'project.server.config.DevelopmentConfig'
-    'project.server.config.TestingConfig'
+    'project.server.config.DevelopmentConfig'
+    # 'project.server.config.TestingConfig'
 )
 app.config.from_object(app_settings)
 
@@ -30,12 +30,14 @@ migrate.init_app(app, db)
 
 from project.server.auth.views import auth_blueprint
 from project.server.student.views import stu_blueprint
-from project.server.azure_blob.upload import azure_blueprint
+from project.server.document.upload_azure_view import upload_blueprint
+from project.server.document.extract_content import extract_blueprint
 from project.server.category.views import category_blueprint
 from project.server.categoryconfig.config_view import config_blueprint
 
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(stu_blueprint)
-app.register_blueprint(azure_blueprint)
+app.register_blueprint(upload_blueprint)
+app.register_blueprint(extract_blueprint)
 app.register_blueprint(category_blueprint)
 app.register_blueprint(config_blueprint)

@@ -17,6 +17,11 @@ gunicorn = "*"
 psycopg2 = "*"
 pandas = "*"
 openpyxl = "*"
+spacy = "*"
+pypdf2 = "*"
+sqlalchemy = "*"
+flask-sqlalchemy = "*"
+xlsxwriter = "*"
 
 [dev-packages]
 

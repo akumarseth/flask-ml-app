@@ -16,7 +16,7 @@ import json
 from marshmallow import ValidationError
 
 
-azure_blueprint = Blueprint('azure', __name__)
+upload_blueprint = Blueprint('upload_blueprint', __name__)
 
 
 app.config.from_pyfile('config.py')
@@ -56,7 +56,11 @@ def update_documentdetails_to_db(display_file_name, file_name, catagory):
     docdetails = Dcoument(
                 display_file_name = display_file_name,
                 file_name=file_name,
-                category = catagory
+                category = catagory,
+                created_by="",
+                created_date=datetime.now(),
+                edited_by="",
+                edited_date=datetime.now()
             )
     db.session.add(docdetails)
     db.session.commit()
@@ -146,7 +150,7 @@ def get_all_blob_list_from_db():
 
 
 # add Rules for API Endpoints
-azure_blueprint.add_url_rule('/', view_func=index, methods=['GET'])
-azure_blueprint.add_url_rule('/uploader/<category>', view_func=upload_file, methods=['POST'])
-azure_blueprint.add_url_rule('/download/<doc_id>', view_func=download_blob, methods=['GET'])
-azure_blueprint.add_url_rule('/documentlist', view_func=get_all_blob_list_from_db, methods=['GET'])
+upload_blueprint.add_url_rule('/', view_func=index, methods=['GET'])
+upload_blueprint.add_url_rule('/uploader/<category>', view_func=upload_file, methods=['POST'])
+upload_blueprint.add_url_rule('/download/<doc_id>', view_func=download_blob, methods=['GET'])
+upload_blueprint.add_url_rule('/documentlist', view_func=get_all_blob_list_from_db, methods=['GET'])

@@ -6,7 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # postgres_local_base = 'postgresql://postgres:@localhost/'
 # sqlite_local_base = 'mysql+pymysql://root:Admin@123@localhost:3307/'
 sqlite_local_base = 'sqlite:///' + basedir + '\\'
-database_name = 'flask_ml__db.sqlite'
+database_name = 'flask_ml_v1_db.sqlite'
 
 # EmailID
 serviceEmail = 'xxxx@gmail.com'
