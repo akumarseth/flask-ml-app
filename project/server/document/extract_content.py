@@ -5,6 +5,7 @@ from project.server.auth.views import auth_required
 from project.server.app import app, db
 from project.server.utilties.nlp_utils import *
 from project.server.utilties.base_utils import base_utils
+from project.server.utilties.azure_utils import *
 
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient, __version__
 from azure.storage.blob import generate_blob_sas, AccountSasPermissions
@@ -196,33 +197,44 @@ def process_extract_data(matched_sentences, page_no):
         print(ex)
 
 
-def download_blob_and_save_to_local(doc_id):
-    try:
-        blob_client = blob_service_client.get_blob_client(container = container_name, blob = "0266554465.jpeg")
+# def download_blob_and_save_to_local(doc_id):
+#     try:
+#         blob_client = blob_service_client.get_blob_client(container = container_name, blob = "0266554465.jpeg")
 
-        # return blob_client.download_blob().readall()
+#         # return blob_client.download_blob().readall()
+#         doc_detail = Dcoument.query.get(doc_id)
+#         if doc_detail:
+#             blob_name = doc_detail.file_name
+#             # print(blob_name)
+#             url = f"https://{account}.blob.core.windows.net/{container_name}/{blob_name}"
+#             sas_token = generate_blob_sas(
+#                 account_name=account,
+#                 account_key=key,
+#                 container_name=container_name,
+#                 blob_name=blob_name,
+#                 permission=AccountSasPermissions(read=True),
+#                 expiry=datetime.utcnow() + timedelta(hours=1)
+#             )
+#         url_with_sas = f"{url}?{sas_token}"
+
+#         # req = urllib.urlopen(url_with_sas)
+#         # return redirect(url_with_sas)
+
+#         r = requests.get(url_with_sas, allow_redirects=True)
+#         # filename = getFilename_fromCd(r.headers.get('content-disposition'))
+#         open(blob_name, 'wb').write(r.content)
+        
+#         return blob_name
+#     except Exception as ex:
+#         print(ex)
+
+
+def get_blob_details_from_db(doc_id):
+    try:
         doc_detail = Dcoument.query.get(doc_id)
         if doc_detail:
             blob_name = doc_detail.file_name
-            # print(blob_name)
-            url = f"https://{account}.blob.core.windows.net/{container_name}/{blob_name}"
-            sas_token = generate_blob_sas(
-                account_name=account,
-                account_key=key,
-                container_name=container_name,
-                blob_name=blob_name,
-                permission=AccountSasPermissions(read=True),
-                expiry=datetime.utcnow() + timedelta(hours=1)
-            )
-        url_with_sas = f"{url}?{sas_token}"
 
-        # req = urllib.urlopen(url_with_sas)
-        # return redirect(url_with_sas)
-
-        r = requests.get(url_with_sas, allow_redirects=True)
-        # filename = getFilename_fromCd(r.headers.get('content-disposition'))
-        open(blob_name, 'wb').write(r.content)
-        
         return blob_name
     except Exception as ex:
         print(ex)
@@ -231,7 +243,8 @@ def download_blob_and_save_to_local(doc_id):
 def start_extracting(doc_id, category):
     try:
         config_details = get_config_data_from_db(category)
-        pdf_path = download_blob_and_save_to_local(doc_id)
+        blob_name = get_blob_details_from_db(doc_id)
+        pdf_path = download_blob_and_save_to_local(blob_name)
         
         with open(pdf_path, 'rb') as f:
             pdf_reader = PdfFileReader(f)
@@ -281,6 +294,8 @@ def start_extracting(doc_id, category):
         return {'count':len(final_extracted_data), 'data':final_extracted_data}
     except Exception as ex:
         print(ex)
+    finally:
+        os.remove(pdf_path)
 
         
 

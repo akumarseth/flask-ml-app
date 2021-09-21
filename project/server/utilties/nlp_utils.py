@@ -8,10 +8,22 @@ from collections import Counter
 import os
 import pandas as pd
 import numpy as np
+from spacy import displacy
 
 
 nlp = spacy.load('en_core_web_sm')
 
+
+def entity_view_displacy(text):
+    text = text.replace("\n", " ")
+    doc = nlp(text)
+
+    html = displacy.render(doc,style="ent")
+    html = html.replace("\n\n","\n")
+    html = html.replace("\n"," ")
+
+    return html
+    
 
 def getEntities(text):
     doc = nlp(text)

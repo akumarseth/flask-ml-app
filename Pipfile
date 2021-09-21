@@ -22,6 +22,11 @@ pypdf2 = "*"
 sqlalchemy = "*"
 flask-sqlalchemy = "*"
 xlsxwriter = "*"
+xlrd = "*"
+flask-markdown = "*"
+tensorflow = "*"
+joblib = "*"
+sklearn = "*"
 
 [dev-packages]
 

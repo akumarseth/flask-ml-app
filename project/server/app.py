@@ -32,12 +32,16 @@ from project.server.auth.views import auth_blueprint
 from project.server.student.views import stu_blueprint
 from project.server.document.upload_azure_view import upload_blueprint
 from project.server.document.extract_content import extract_blueprint
+from project.server.document.entity_view import entity_blueprint
 from project.server.category.views import category_blueprint
 from project.server.categoryconfig.config_view import config_blueprint
+from project.server.classification.spam_classification import spam_blueprint
 
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(stu_blueprint)
 app.register_blueprint(upload_blueprint)
+app.register_blueprint(entity_blueprint)
 app.register_blueprint(extract_blueprint)
 app.register_blueprint(category_blueprint)
 app.register_blueprint(config_blueprint)
+app.register_blueprint(spam_blueprint)
