@@ -36,6 +36,7 @@ from project.server.document.entity_view import entity_blueprint
 from project.server.category.views import category_blueprint
 from project.server.categoryconfig.config_view import config_blueprint
 from project.server.classification.spam_classification import spam_blueprint
+from project.server.classification.news_classification import news_blueprint
 
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(stu_blueprint)
@@ -45,3 +46,4 @@ app.register_blueprint(extract_blueprint)
 app.register_blueprint(category_blueprint)
 app.register_blueprint(config_blueprint)
 app.register_blueprint(spam_blueprint)
+app.register_blueprint(news_blueprint)

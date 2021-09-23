@@ -119,6 +119,7 @@ def download_blob(doc_id):
                 expiry=datetime.utcnow() + timedelta(hours=1)
             )
         url_with_sas = f"{url}?{sas_token}"
+        # return url_with_sas
         return redirect(url_with_sas)
     except Exception as ex:
         print(ex)

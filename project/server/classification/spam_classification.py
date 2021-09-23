@@ -32,7 +32,7 @@ def predict_using_countvector():
         text_to_predict = post_text_data.get("text_to_predict"),
 
         cwd = os.getcwd()
-        ml_model_dir = os.path.join(cwd, 'project', 'ml_model')
+        ml_model_dir = os.path.join(cwd, 'project', 'ml_model','spam_countvectorizer')
         # load saved train model
         NB_spam_model = open(os.path.join(
             ml_model_dir, 'NB_countvector_spam_model.pickel'), 'rb')
