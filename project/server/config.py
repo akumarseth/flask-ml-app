@@ -2,6 +2,7 @@
 
 import os
 
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 # postgres_local_base = 'postgresql://postgres:@localhost/'
 # sqlite_local_base = 'mysql+pymysql://root:Admin@123@localhost:3307/'
@@ -15,6 +16,8 @@ password = '********'
 
 class BaseConfig:
     """Base configuration."""
+
+    TESSERACT_PATH = r'C:\\Users\\Abhishek.Kumar13\\AppData\\Local\\Programs\\Tesseract-OCR\\tesseract.exe'
     SECRET_KEY = os.getenv('SECRET_KEY', 'super_secret')
     DEBUG = False
     BCRYPT_LOG_ROUNDS = 13

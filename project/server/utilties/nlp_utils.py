@@ -14,6 +14,17 @@ from spacy import displacy
 nlp = spacy.load('en_core_web_sm')
 
 
+def getEntities_new(text):
+    doc = nlp(text)
+
+    result = []
+    for ent in doc.ents:
+        # print(ent.text, ent.start_char, ent.end_char, ent.label_)
+        if ent.label_ in ['LOC', 'GPE', 'DATE', 'CARDINAL', 'ORG', 'PRODUCT', 'ORDINAL', 'MONEY','PERCENT']:
+            
+            result.append((ent.label_, ent.text,))
+    return result
+
 def entity_view_displacy(text):
     text = text.replace("\n", " ")
     doc = nlp(text)

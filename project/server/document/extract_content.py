@@ -6,6 +6,7 @@ from project.server.app import app, db
 from project.server.utilties.nlp_utils import *
 from project.server.utilties.base_utils import base_utils
 from project.server.utilties.azure_utils import *
+from project.server.utilties.ocr_utils import ocr_utils
 
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient, __version__
 from azure.storage.blob import generate_blob_sas, AccountSasPermissions
@@ -240,64 +241,102 @@ def get_blob_details_from_db(doc_id):
         print(ex)
 
 
-def start_extracting(doc_id, category):
-    try:
-        config_details = get_config_data_from_db(category)
-        blob_name = get_blob_details_from_db(doc_id)
-        pdf_path = download_blob_and_save_to_local(blob_name)
-        
-        with open(pdf_path, 'rb') as f:
-            pdf_reader = PdfFileReader(f)
-            information = pdf_reader.getDocumentInfo()
-            number_of_pages = pdf_reader.getNumPages()
+def extract_sales_agreement(config_details,blob_name,pdf_path):
+    
+    with open(pdf_path, 'rb') as f:
+        pdf_reader = PdfFileReader(f)
+        information = pdf_reader.getDocumentInfo()
+        number_of_pages = pdf_reader.getNumPages()
 
-            final_extracted_data = []
-            for page_number in range(10):
-                page_obj = pdf_reader.getPage(page_number)
-                page_content = page_obj.extractText()
+        final_extracted_data = []
+        for page_number in range(10):
+            page_obj = pdf_reader.getPage(page_number)
+            page_content = page_obj.extractText()
 
-                page_no = page_number + 1
+            page_no = page_number + 1
 
-                if page_number == 0:
-                    first_page_data = extract_basic_info_from_first_page(page_content)
-                    final_extracted_data.extend(first_page_data)
+            if page_number == 0:
+                first_page_data = extract_basic_info_from_first_page(page_content)
+                final_extracted_data.extend(first_page_data)
 
-                sentence_list = sentence_segmentaion(page_content)
-                matched_sentences = spacy_matcher_by_sent(sentence_list, config_details)
-                main_list = process_extract_data(matched_sentences, page_no)
-                final_extracted_data.extend(main_list)
+            sentence_list = sentence_segmentaion(page_content)
+            matched_sentences = spacy_matcher_by_sent(sentence_list, config_details)
+            main_list = process_extract_data(matched_sentences, page_no)
+            final_extracted_data.extend(main_list)
 
-                # extract_gainshare_of_guarnteed_productivity(page_content,page_no,file_name)
-                # extract_Service_Request_acceptance_rejection_Service_level(page_content,page_no)
-                
-                # if 'Current Pricing'.lower() in page_content.lower():
-                #     doc = nlputil.nlp_utilities.get_doc(page_content.replace('\n', ' '))
-                #     # doc = nlputil.nlp_utilities.get_doc(page_content)
-                #     for token in doc:
-                #         if str(token.text).lower() == 'Current'.lower() or str(token.text).lower() == 'Current Pricing'.lower():
-                #             index = token.i
-                #             country = doc[index - 1]
+            # extract_gainshare_of_guarnteed_productivity(page_content,page_no,file_name)
+            # extract_Service_Request_acceptance_rejection_Service_level(page_content,page_no)
+            
+            # if 'Current Pricing'.lower() in page_content.lower():
+            #     doc = nlputil.nlp_utilities.get_doc(page_content.replace('\n', ' '))
+            #     # doc = nlputil.nlp_utilities.get_doc(page_content)
+            #     for token in doc:
+            #         if str(token.text).lower() == 'Current'.lower() or str(token.text).lower() == 'Current Pricing'.lower():
+            #             index = token.i
+            #             country = doc[index - 1]
 
-                #     is_Table = extract_current_Pricing_if_table(page_no, pdf_path, result_excel_path,file_name,country, page_content)
-                #     try:
-                #         if is_Table == False:
-                #             extract_Current_Pricing_if_not_table(page_content, page_no, pdf_path, result_excel_path,file_name,country)
-                #     except:
-                #         continue 
-        
+            #     is_Table = extract_current_Pricing_if_table(page_no, pdf_path, result_excel_path,file_name,country, page_content)
+            #     try:
+            #         if is_Table == False:
+            #             extract_Current_Pricing_if_not_table(page_content, page_no, pdf_path, result_excel_path,file_name,country)
+            #     except:
+            #         continue 
+            
         # extract_Commencement_table(pdf_path, 167)
     
         # df = pd.DataFrame(final_extracted_data)
         # print(df)
         # df.to_excel("output.xlsx", sheet_name="Contract Metadata Output", index=False, engine='xlsxwriter')
 
-        return {'count':len(final_extracted_data), 'data':final_extracted_data}
+    return {'count':len(final_extracted_data), 'data':final_extracted_data}
+
+
+def extract_financial_agreement(config_details,blob_name,pdf_path):
+    ocr_util = ocr_utils(pdf_path)
+    pdf_text_with_pageNum = ocr_util.get_pdf_text(5,15)
+
+    final_data = []
+    for page_text in pdf_text_with_pageNum:
+        page_no=page_text[0];
+        print("\n")
+        print('**********************')
+        print(page_no)
+        print('**********************')
+        print(page_no, page_text[1])
+        sentence_list = page_text[1].split('\n');
+        for line in sentence_list:
+            entities = getEntities_new(line)
+            for ent in entities:
+                if ent[0] == 'MONEY' or ent[0] == 'CARDINAL':
+                    text_to_display = line[:(len(line)-len(ent[1]))].strip()
+                    data = {'page_no' : page_no, 'original_text':line,'text_to_display': text_to_display, 'entity':ent[1]}
+                    final_data.append(data)
+
+
+        # matched_sentences = spacy_matcher_by_sent(sentence_list, config_details)
+
+    return {'count':len(final_data), 'data':final_data}
+
+
+def start_extracting(doc_id, category):
+    try:
+        config_details = get_config_data_from_db(category)
+        blob_name = get_blob_details_from_db(doc_id)
+        pdf_path = download_blob_and_save_to_local(blob_name)
+        
+        if category == 'Financial Agreement':
+            return extract_financial_agreement(config_details,blob_name,pdf_path)
+        else:
+            return extract_sales_agreement(config_details,blob_name,pdf_path)
+            
     except Exception as ex:
         print(ex)
     finally:
         os.remove(pdf_path)
 
         
+
+
 
 # add Rules for API Endpoints
 extract_blueprint.add_url_rule('/extract/<doc_id>/<category>', view_func=start_extracting, methods=['GET'])

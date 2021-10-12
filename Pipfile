@@ -27,6 +27,8 @@ flask-markdown = "*"
 tensorflow = "*"
 joblib = "*"
 sklearn = "*"
+pytesseract = "*"
+pdf2image = "*"
 
 [dev-packages]
 
