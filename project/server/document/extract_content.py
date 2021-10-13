@@ -291,11 +291,56 @@ def extract_sales_agreement(config_details,blob_name,pdf_path):
     return {'count':len(final_extracted_data), 'data':final_extracted_data}
 
 
+def process_financial_extracted_data(matched_sentences, page_no):
+    extracted_list = []
+    ## read the pdf document
+    for i in range(len(matched_sentences)):
+        metadata_heading = ''
+        information_extracted = []
+        res_money = []
+        pages = []
+        res_money_val =''
+        commission_val = ''
+        datetime_data_val = ''
+
+        metadata_heading = matched_sentences[i].split(':')[0]
+        info_val = matched_sentences[i].split(':')[1]
+
+        entity_list = getEntities(matched_sentences[i])
+        if entity_list != None:
+            matched_res_money = [ent.split(':')[0] for ent in entity_list if 'MONEY' in ent]
+            if matched_res_money != None: 
+                if len(matched_res_money) > 0:
+                    res_money_val = matched_res_money[0]
+
+
+        monthyear = base_utils().getMonthandYear(matched_sentences[i])
+        if monthyear:
+
+            for ind in range(len(monthyear)):
+                datetime_data_val = monthyear[ind]
+
+        is_found = False
+        for dict_data in extracted_list:
+            for key in dict_data:
+                if dict_data["Metadata heading"] == metadata_heading:
+                    is_found = True
+                    dict_data["Information Extracted"].append(info_val),
+                    dict_data["Information Extracted"] = list(set(dict_data["Information Extracted"]))
+                
+
+    return extracted_list
+
+
+
+
 def extract_financial_agreement(config_details,blob_name,pdf_path):
     ocr_util = ocr_utils(pdf_path)
     pdf_text_with_pageNum = ocr_util.get_pdf_text(5,15)
 
     final_data = []
+    paragraph_data=[]
+    text = []
     for page_text in pdf_text_with_pageNum:
         page_no=page_text[0];
         print("\n")
@@ -304,7 +349,9 @@ def extract_financial_agreement(config_details,blob_name,pdf_path):
         print('**********************')
         print(page_no, page_text[1])
         sentence_list = page_text[1].split('\n');
+
         for line in sentence_list:
+            text.append(line)
             entities = getEntities_new(line)
             for ent in entities:
                 if ent[0] == 'MONEY' or ent[0] == 'CARDINAL':
@@ -312,10 +359,9 @@ def extract_financial_agreement(config_details,blob_name,pdf_path):
                     data = {'page_no' : page_no, 'original_text':line,'text_to_display': text_to_display, 'entity':ent[1]}
                     final_data.append(data)
 
-
-        # matched_sentences = spacy_matcher_by_sent(sentence_list, config_details)
-
-    return {'count':len(final_data), 'data':final_data}
+        matched_sentences = spacy_matcher_by_sent(text, config_details)
+        paragraph_data.extend(process_financial_extracted_data(matched_sentences, page_no))
+    return {'data':final_data, 'matched_data':paragraph_data}
 
 
 def start_extracting(doc_id, category):

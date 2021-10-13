@@ -153,11 +153,13 @@ def upload_config(category):
 def get_config_template_list(category):
     """get all config template by category"""
     try:
-        config_template_list = ConfigTemplate.query.all()
-
-        config_templatE_schema = ConfigTemplateSchema(many=True)
-        results = config_templatE_schema.dump(config_template_list)
-        return {"data": results}
+        config_template = ConfigTemplate.query.filter_by(category=category).first()
+        if config_template:
+            config_templatE_schema = ConfigTemplateSchema(many=True)
+            results = config_templatE_schema.dump(config_template)
+            return {"data": results}
+        else:
+            return {"data": None}
     except Exception as e:
         print(e)
         return Response(
