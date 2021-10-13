@@ -153,7 +153,7 @@ def upload_config(category):
 def get_config_template_list(category):
     """get all config template by category"""
     try:
-        config_template = ConfigTemplate.query.filter_by(category=category).first()
+        config_template = ConfigTemplate.query.filter_by(category=category).all()
         if config_template:
             config_templatE_schema = ConfigTemplateSchema(many=True)
             results = config_templatE_schema.dump(config_template)

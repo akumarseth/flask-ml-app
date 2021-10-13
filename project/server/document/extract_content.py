@@ -297,11 +297,9 @@ def process_financial_extracted_data(matched_sentences, page_no):
     for i in range(len(matched_sentences)):
         metadata_heading = ''
         information_extracted = []
-        res_money = []
+        entity = []
         pages = []
-        res_money_val =''
-        commission_val = ''
-        datetime_data_val = ''
+        res_entity_val = ''
 
         metadata_heading = matched_sentences[i].split(':')[0]
         info_val = matched_sentences[i].split(':')[1]
@@ -311,14 +309,7 @@ def process_financial_extracted_data(matched_sentences, page_no):
             matched_res_money = [ent.split(':')[0] for ent in entity_list if 'MONEY' in ent]
             if matched_res_money != None: 
                 if len(matched_res_money) > 0:
-                    res_money_val = matched_res_money[0]
-
-
-        monthyear = base_utils().getMonthandYear(matched_sentences[i])
-        if monthyear:
-
-            for ind in range(len(monthyear)):
-                datetime_data_val = monthyear[ind]
+                    res_entity_val = matched_res_money[0]
 
         is_found = False
         for dict_data in extracted_list:
@@ -327,8 +318,29 @@ def process_financial_extracted_data(matched_sentences, page_no):
                     is_found = True
                     dict_data["Information Extracted"].append(info_val),
                     dict_data["Information Extracted"] = list(set(dict_data["Information Extracted"]))
-                
 
+                    # page_val = page_no
+                    # dict_data["pages"].append(page_val)
+                    # dict_data["pages"] = list(set(dict_data["pages"]))
+
+                    if res_entity_val:
+                        dict_data["entity"].append(res_entity_val)
+                        dict_data["entity"] = list(set(dict_data["entity"]))
+                    
+
+        if is_found == False:
+            information_extracted.append(info_val)
+            entity.append(res_entity_val)
+            pages.append(page_no)
+
+            extracted_list.append({
+                    "Metadata heading": metadata_heading,
+                    "Information Extracted":information_extracted,
+                    "Pages": list(set(pages)),
+                    "Entity" :entity
+                })
+
+                        
     return extracted_list
 
 
